@@ -1,8 +1,24 @@
 <script setup>
+
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
-let count = 0;
-
+import {ref} from 'vue'
+let count = ref(0);
+function plus(){
+  count.value++;
+}
+function minus(){
+  count.value--;
+}
+function plusTen(){
+  count.value+=10;
+}
+function minusTen(){
+  count.value-=10;
+}
+function reset(){
+  count.value = 0;
+}
 
 
 
@@ -17,6 +33,12 @@ let count = 0;
 
 {{count}}
 </h3>
+<button @click="plus()">+1</button>
+<button @click="plusTen()">+10</button>
+<button @click="minus()">-1</button>
+<button @click="minusTen()">-10</button>
+<button @click="reset()"> reset</button>
+
     
   </main>
 </template>
