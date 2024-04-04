@@ -1,73 +1,64 @@
-<script setup>
-
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import {ref} from 'vue'
-let count = ref(0);
-function plus(){
-  count.value++;
+<script>
+export default {
+  data(){
+    return{
+      email:'',
+       isEmailValid: false,
+    };
+  },
+  methods:{
+   openEmailPrompt(){
+        let email = prompt('Input your email');
+        if(!email){
+          this.isEmailValid = false;
+          return;
+        }
+        email = email.trim();
+        this.email = email;
+        console.log(email);
+        const isValid = this.checkIsEmailValid(email);
+        this.isEmailValid = isValid;
+    },
+    checkIsEmailValid(email){
+      const reg = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+     return reg.test(email);
+    },
+    reset(){
+      this.email = '';
+      this.isEmailValid = false;
+    }
+  }
 }
-function minus(){
-  count.value--;
-}
-function plusTen(){
-  count.value+=10;
-}
-function minusTen(){
-  count.value-=10;
-}
-function reset(){
-  count.value = 0;
-}
-
-
 
 </script>
 
 
 <template>
- 
-
   <main>
-<h3> 
-
-{{count}}
-</h3>
-<button @click="plus()">+1</button>
-<button @click="plusTen()">+10</button>
-<button @click="minus()">-1</button>
-<button @click="minusTen()">-10</button>
-<button @click="reset()"> reset</button>
-
-    
+  <button @click="openEmailPrompt()" class="inputEmail">Input your email</button>
+  <button @click="reset()">Reset</button>
+  <h1 
+  :class="isEmailValid ? 'green' : 'red'"
+  v-if="email"
+  >{{ email }}</h1>
+<h4 v-if="email">{{ `The email is ${isEmailValid ? 'valid': 'invalid'}`}}</h4>
   </main>
 </template>
-
 <style scoped>
-header {
-  line-height: 1.5;
+.red{
+  border: 1px solid red;
+  padding:0 10px;
+  border-radius: 20px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.green{
+  border: 1px solid green;
+  padding:0 10px;
+  border-radius: 20px;
 }
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+.inputEmail{padding:10px 10px;
+  margin:15px;
+  font-size:20px;  
+  border-radius: 15px;
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
